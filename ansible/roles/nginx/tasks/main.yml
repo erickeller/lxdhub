@@ -1,0 +1,13 @@
+---
+# https://medium.com/@gmaliar/generating-lets-encrypt-certificates-for-nginx-using-ansible-9fd27b90993a
+- name: install nginx
+  apt:
+    name: nginx
+    state: present
+  become: yes
+
+- name: setup default configuration
+  template:
+    src: default.j2
+    dest: /etc/nginx/sites-available/default
+  become: yes

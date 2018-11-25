@@ -1,0 +1,51 @@
+# Default server configuration
+#
+
+upstream upstream-nodejs {
+  server  {{ container_ip }}:3000;
+}
+
+server {
+
+  root /var/www/html;
+
+  # Add index.php to the list if you are using PHP
+  index index.html index.htm index.nginx-debian.html;
+  server_name {{ lxdhub_url }}; # managed by Certbot
+
+  location / {
+    proxy_pass http://upstream-nodejs;
+    include proxy_params;
+  }
+
+  listen [::]:443 ssl; # managed by Certbot
+  listen 443 ssl; # managed by Certbot
+  ssl_certificate /etc/letsencrypt/live/{{ lxdhub_url }}/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/{{ lxdhub_url }}/privkey.pem; # managed by Certbot
+  include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+  ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+    
+  location /socket.io/ {
+    proxy_pass              http://upstream-nodejs;
+    proxy_redirect off;
+    proxy_http_version      1.1;
+    proxy_set_header        Upgrade                 $http_upgrade;
+    proxy_set_header        Connection              "upgrade";
+    proxy_set_header        Host                    $host;
+    proxy_set_header        X-Real-IP               $remote_addr;
+    proxy_set_header        X-Forwarded-For         $proxy_add_x_forwarded_for;
+  }
+
+}
+server {
+  if ($host = {{ lxdhub_url }}) {
+    return 301 https://$host$request_uri;
+  } # managed by Certbot
+
+
+  listen 80 ;
+  listen [::]:80 ;
+  server_name {{ lxdhub_url }};
+  return 404; # managed by Certbot
+}
