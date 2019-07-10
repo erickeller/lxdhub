@@ -25,6 +25,14 @@
 
 - [lxc >= 3.x](https://linuxcontainers.org/)
 
+Install lxd over snap:
+```
+sudo snap install lxd
+sudo /snap/bin/lxd init
+export PATH=$PATH:/snap/bin/
+# usermod -aG lxd ${USER}
+```
+
 The fastest way to run LXDHub on your computer is by pulling the LXDHub LXC image from
 our [public remote](https://lxdhub.xyz/remote/lxdhub/images).
 
