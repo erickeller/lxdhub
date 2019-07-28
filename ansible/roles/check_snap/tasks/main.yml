@@ -1,6 +1,6 @@
 ---
 - name: check for snap lxd
-  shell: which lxd | grep -qa snap
+  shell: /usr/bin/snap list lxd
   ignore_errors: yes
   register: snap_lxd
 
