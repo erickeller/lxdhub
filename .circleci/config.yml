@@ -58,6 +58,23 @@ jobs:
       - checkout
       - run: ./bin/deploy-docker.sh
 
+  build_lxdhub_image:
+    machine:
+      image: ubuntu-1604:201903-01
+    working_directory: /tmp/lxdhub
+    steps:
+      - checkout
+      - run: 'sudo apt purge -y lxd lxd-client'
+      - run: 'sudo apt update'
+      - run: 'sudo apt install -y software-properties-common'
+      - run: 'sudo apt-add-repository ppa:ansible/ansible -y'
+      - run: 'sudo apt update'
+      - run: 'sudo apt install -y ansible snapd'
+      - run: 'sudo snap install lxd'
+      - run: 'cat ansible/roles/lxd_setup/files/lxd.seed | sudo /snap/bin/lxd init --preseed'
+      - run: echo 'export PATH=/snap/bin:$PATH' >> $BASH_ENV
+      - run: 'ansible-playbook ansible/deploy.yml -D -vv -e "container_name=lxdhub"'
+
 workflows:
   version: 2
   build-test-and-deploy:
@@ -69,6 +86,7 @@ workflows:
       - lockfile_upload:
           requires:
             - test
+      - build_lxdhub_image
       # - deploy_docker:
       #     filters:
       #       branches:
