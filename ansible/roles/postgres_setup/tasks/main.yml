@@ -1,15 +1,25 @@
 ---
 - name: install postgres
   apt:
-    name: ['postgresql', 'postgresql-contrib']
+    name: ['postgresql', 'postgresql-contrib', 'python-psycopg2']
     state: present
 
-- name: copy user sql script
-  template:
-    src: create-user.sql.j2
-    dest: /tmp/create-user.sql
+- name: ensure postgres is running
+  service:
+    name: postgresql
+    state: started
 
-- name: create db #todo use ansbible module here
-  command: psql --file=/tmp/create-user.sql
+- name: create lxdhub database
+  postgresql_db:
+    name: lxdhub
+    encoding: UTF-8
+  become: yes
+  become_user: postgres
+
+- name: create lxdhub postgresql user
+  postgresql_user:
+    name: lxdhub
+    password: "{{ lxdhub_password }}"
+    role_attr_flags: SUPERUSER,CREATEDB,CREATEROLE,INHERIT,LOGIN
   become: yes
   become_user: postgres
