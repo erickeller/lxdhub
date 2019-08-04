@@ -73,7 +73,7 @@ jobs:
       - run: 'sudo snap install lxd'
       - run: 'cat ansible/roles/lxd_setup/files/lxd.seed | sudo /snap/bin/lxd init --preseed'
       - run: echo 'export PATH=/snap/bin:$PATH' >> $BASH_ENV
-      - run: 'ansible-playbook ansible/deploy.yml -D -vv -e "container_name=lxdhub"'
+      - run: 'ansible-playbook ansible/image.yml -D -vv -e "container_name=lxdhub"'
       - run: 'lxc image export local:lxdhub /tmp/lxdhub-img --quiet'
       - store_artifacts:
           path: /tmp/lxdhub-img.tar.gz

@@ -71,13 +71,13 @@ one can use the roles in the `ansible` folder to deploy lxdhub on their own serv
 
 ```bash
 cd ansible
-ansible-playbook deploy.yml -D -vv
+ansible-playbook image.yml -D -vv
 ```
 
 one can also parametrize the container_name and lxdhub_version to be checked out as extra-vars.
 
 ```
-ansible-playbook deploy.yml -D -vv -e "container_name=next-lxdhub" -e "lxdhub_version=v1.8.0"
+ansible-playbook image.yml -D -vv -e "container_name=next-lxdhub" -e "lxdhub_version=v1.8.0"
 ```
 
 This call will:
