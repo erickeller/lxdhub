@@ -1,0 +1,13 @@
+---
+- name: install nginx
+  apt:
+    name: nginx
+    state: present
+  become: yes
+
+  #- name: configure template
+  #template:
+  #  src:
+  #  dest:
+  #notify: restart nginx
+  #become: yes

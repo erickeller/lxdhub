@@ -1,0 +1,11 @@
+---
+- hosts: all
+  gather_facts: True
+  roles:
+    - role: lxd_setup
+      #- role: lxd_hardening
+      #- role: certificates
+    - role: proxy
+      #- role: monitoring
+      #- role: update_hook
+
