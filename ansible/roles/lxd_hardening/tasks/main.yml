@@ -1,0 +1,8 @@
+---
+# https://lxd.readthedocs.io/en/latest/security/
+
+- name: disable lxd unsecure password
+  command: lxc config unset core.trust_password
+
+- name: bound service to a specific ip
+  command: "lxc config set core.https_address {{ ansible_default_ipv4.address }}:8443"
