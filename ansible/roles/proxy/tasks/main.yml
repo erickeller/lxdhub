@@ -5,6 +5,10 @@
     state: present
   become: yes
 
+- name: extract container ip
+  shell: lxc ls "{{ lxdhub_container_name }}" -c n4 --format csv | cut -d, -f2 | cut -d" " -f1
+  register: lxdhub_container_ip
+
 - name: configure template
   template:
     src: default.j2

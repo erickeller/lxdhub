@@ -20,7 +20,7 @@
 #
 
 upstream upstream-nodejs {
-        server  {{ lxdhub_container_ip }}:3000;
+        server  {{ lxdhub_container_ip.stdout }}:3000;
 }
 
 server {
