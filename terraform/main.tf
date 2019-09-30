@@ -13,4 +13,8 @@ resource "google_compute_instance" "vm_instance" {
     access_config {
     }
   }
+
+  metadata = {
+    sshKeys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"
+  }
 }
