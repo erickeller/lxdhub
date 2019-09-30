@@ -1,5 +1,11 @@
 ---
 - hosts: all
+  gather_facts: False
+  become: yes
+  tasks:
+    - raw: dpkg -l python-minimal || apt update && apt install -y python-minimal
+
+- hosts: all
   gather_facts: True
   roles:
     - role: lxd_setup
@@ -7,7 +13,7 @@
     - role: proxy
       #- role: certificates
       #- role: update_hook
-    - { role: Datadog.datadog, become: yes }
+    #- { role: Datadog.datadog, become: yes }
   vars:
     datadog_site: "datadoghq.eu"
     #datadog_api_key: "123456"
