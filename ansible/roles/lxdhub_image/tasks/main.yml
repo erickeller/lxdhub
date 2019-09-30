@@ -1,0 +1,27 @@
+---
+- name: Conditionally decide to load in variables file when lxdhub['snap'] is 0, otherwise do not.
+  include_vars:
+    file: "{{ playbook_dir }}/vars/lxd_snap_socket.yml"
+  when: hostvars['{{ container_name }}']['snap'] == "0"
+
+- name: Conditionally decide to load in variables file when lxdhub['snap'] is not 0, otherwise do not.
+  include_vars:
+    file: "{{ playbook_dir }}/vars/lxd_default_socket.yml"
+  when: hostvars['{{ container_name }}']['snap'] != "0"
+
+- name: Create and start container
+  lxd_container:
+    name: "{{ container_name }}"
+    state: started
+    source:
+      type: image
+      mode: pull
+      server: https://lxdhub.xyz:8443
+      protocol: lxd
+      alias: lxdhub-latest
+    profiles: ["default"]
+    config: {"security.nesting": "true"}
+    url: "{{ lxd_url }}"
+    wait_for_ipv4_addresses: true
+    timeout: 600
+
