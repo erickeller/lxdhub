@@ -10,11 +10,14 @@
   roles:
     - role: lxd_setup
     - role: lxd_hardening
+    - role: check_snap
+    - role: lxdhub_image
     - role: proxy
       #- role: certificates
       #- role: update_hook
     #- { role: Datadog.datadog, become: yes }
   vars:
+    container_name: lxdhub
     datadog_site: "datadoghq.eu"
     #datadog_api_key: "123456"
 
