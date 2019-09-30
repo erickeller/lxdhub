@@ -76,7 +76,7 @@ ansible-playbook image.yml -D -vv
 # deploy lxdhub.xyz (i.e. Continuous deployment)
 # install dependencies (monitoring)
 ansible-galaxy install -r requirements.yml
-ansible-playbook -i /tmp/inventory -u ubuntu -k deploy.yml -D -vv -e "datadog_api_key=123456"
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i /tmp/inventory -u ubuntu -k deploy.yml -D -vv -e "datadog_api_key=123456"
 ```
 
 one can also parametrize the container_name and lxdhub_version to be checked out as extra-vars.
