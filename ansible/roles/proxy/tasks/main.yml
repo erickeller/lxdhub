@@ -6,7 +6,7 @@
   become: yes
 
 - name: extract container ip
-  shell: lxc ls "{{ lxdhub_container_name }}" -c n4 --format csv | cut -d, -f2 | cut -d" " -f1
+  shell: lxc ls "{{ lxdhub_container_name }}" -c n4 --format csv | cut -d, -f2 | cut -d ' ' -f1 | head -n1 | tr -d '"'
   register: lxdhub_container_ip
 
 - name: configure template
